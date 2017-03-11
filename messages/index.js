@@ -1,6 +1,15 @@
 "use strict";
 var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
+var weather = require('Openweather-Node');
+//=========================================================
+// Bot Setup
+//=========================================================
+
+weather.setAPPID("1ff765439d059bcf41aa3f7ffb586c84");
+weather.setCulture("de");
+weather.setForecastType("daily");
+
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -11,11 +20,30 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-var bot = new builder.UniversalBot(connector);
 
-bot.dialog('/', function (session) {
-    session.send('You said ' + session.message.text);
-});
+var bot = new builder.UniversalBot(connector, [
+    function (session) {
+        builder.Prompts.text(session, "Hello... What's your name?");
+    },
+    function (session, results) {
+        session.userData.name = results.response;
+        builder.Prompts.text(session, "Hi " + results.response + ", Where are you located?");
+    },
+    function (session, results) {
+      weather.now(results.response,function(err, aData)
+{
+    if(err) console.log(err);
+    else
+    {
+      builder.Prompts.text(session, "It is " + aData.getDegreeTemp()['temp'] + "°C in " + results.response  );
+        console.log(aData.getDegreeTemp()['temp'])
+    }
+})
+    },
+    function (session, results) {
+
+    }
+]);
 
 if (useEmulator) {
     var restify = require('restify');
@@ -27,3 +55,6 @@ if (useEmulator) {
 } else {
     module.exports = { default: connector.listen() }
 }
+
+
+
