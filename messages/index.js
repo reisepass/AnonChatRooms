@@ -31,11 +31,11 @@ bot.dialog('/',[
 
         bot.send(new builder.Message()
             .address(session.message.address)
-            .text(JSON.stringify(session.message)));
+            .text(JSON.stringify(session)));
 
                 bot.send(new builder.Message()
-            .address(session.message.address)
-            .text(JSON.stringify(JSON.stringify(session.userData))));
+            .address(session.message.address.user)
+            .text("session.message.address.user::: "+JSON.stringify(session.message.address.user)));
     },
     function (session, results) {
         session.userData.name = results.response;
