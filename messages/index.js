@@ -27,8 +27,12 @@ bot.dialog('/',[
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
        
-        var debugStuff= "UserData: "+session.userData+ " MessageData: "+session.messag + "MessageDataAddress: "+session.message.address+ "MessageDataAddressUser: "+session.message.address.user
+        var debugStuff= " MessageData: "+session.message+ "MessageDataAddress: "+session.message.address+ "MessageDataAddressUser: "+session.message.address.user
         console.log(  debugStuff)
+        console.log(JSON.stringify(session.userData))
+        console.log(JSON.stringify(session.message))
+
+
         bot.send(new builder.Message()
             .address(session.message.address)
             .text(debugStuff));
