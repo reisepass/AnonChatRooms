@@ -21,7 +21,9 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 });
 
 
-var bot = new builder.UniversalBot(connector, [
+var bot = new builder.UniversalBot(connector);
+
+bot.dialog('/',[
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
     },
