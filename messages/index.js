@@ -27,15 +27,15 @@ bot.dialog('/',[
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
        
-        var debugStuff= " MessageData: "+session.message+ "MessageDataAddress: "+session.message.address+ "MessageDataAddressUser: "+session.message.address.user
-        console.log(  debugStuff)
-        console.log(JSON.stringify(session.userData))
-        console.log(JSON.stringify(session.message))
 
 
         bot.send(new builder.Message()
             .address(session.message.address)
-            .text(debugStuff));
+            .text(JSON.stringify(session.message)));
+
+                bot.send(new builder.Message()
+            .address(session.message.address)
+            .text(JSON.stringify(JSON.stringify(session.userData))));
     },
     function (session, results) {
         session.userData.name = results.response;
