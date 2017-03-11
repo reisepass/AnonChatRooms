@@ -27,14 +27,12 @@ bot.dialog('/',[
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
 
-        bot.send(new builder.Message()
-            .address(session.message.address)
-            .text(JSON.stringify(session)));
+       
     },
     function (session, results) {
         session.userData.name = results.response;
         builder.Prompts.text(session, "Hi " + results.response + ", Where are you located?");
-        builder.Prompts.text(session, JSON.stringify(session));
+
     },
     function (session, results) {
       weather.now(results.response,function(err, aData)
