@@ -26,6 +26,12 @@ var bot = new builder.UniversalBot(connector);
 bot.dialog('/',[
     function (session) {
         builder.Prompts.text(session, "Hello... What's your name?");
+        console.log("UserData: "+session.userData)
+        console.log("MessageData: "+session.message)
+
+        console.log("MessageDataAddress: "+session.message.address)
+
+        console.log("MessageDataAddressUser: "+session.message.address.user)
     },
     function (session, results) {
         session.userData.name = results.response;
